@@ -11,18 +11,24 @@
 			.row:hover {
 				background: #F79030;
 			}
+			
+			a {
+				color: #333;
+				text-decoration: none;
+			}
 		</style>
 	</head>
 	<body>
 		<div id="line">
-			<div class="row comm-flex" v-bind:class="rowColor|handleRowColor1(index)" v-for="(line, index) in lines">
+			<a class="row comm-flex" v-bind:href="handleHref(line)"  v-bind:class="rowColor|handleRowColor(index)" v-for="(line, index) in lines">
 				<div class="comm-fItem-grow1">
 					<div>{{ line.SchStationName }}</div>
 					<div>{{line.SchDstNodeName}}</div>
 					<div>{{line.LastSchTime}}</div>
 				</div>
 				<div class="comm-fItem-grow0">¥{{line.MinTicketPrice}}起</div>
-			</div>
+			</a>
+				
 		</div>
 	</body>
 	
@@ -37,16 +43,25 @@
 				rowColor: 'rowColor',
 				lines: lineData
 			},
-			computed: {
-				handleRowColor: function() {
-					return {
-						'rowColor': true
-					};
+			methods: {
+				handleHref: function(args) {
+					var keys=['SchStationName', 'SchDstNodeName'];
+					var url = 'schedule.html';
+					var param = '';
+					for (var i in keys) {
+						var key = keys[i];
+						param += '&'+key+'='+args[key];
+					}
+					if ('' != param) {
+						url += '?';
+						param = param.substring(1);
+					}
+					return url+param;
 				}
 			},
 			
 			filters: {
-				handleRowColor1: function(val, index) {
+				handleRowColor: function(val, index) {
 					return index%2==0?'rowColor':''
 				}
 			}
