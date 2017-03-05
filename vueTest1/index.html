@@ -3,8 +3,53 @@
 	<head>
 		<meta charset="utf-8" />
 		<title></title>
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			.rowColor {
+				background: #0A9EE0;
+			}
+			.row:hover {
+				background: #F79030;
+			}
+		</style>
 	</head>
 	<body>
-		
+		<div id="line">
+			<div class="row comm-flex" v-bind:class="rowColor|handleRowColor1(index)" v-for="(line, index) in lines">
+				<div class="comm-fItem-grow1">
+					<div>{{ line.SchStationName }}</div>
+					<div>{{line.SchDstNodeName}}</div>
+					<div>{{line.LastSchTime}}</div>
+				</div>
+				<div class="comm-fItem-grow0">¥{{line.MinTicketPrice}}起</div>
+			</div>
+		</div>
 	</body>
+	
+	<script type="text/javascript" src="js/vue.min.js" ></script>
+	<script type="text/javascript" src="json.js" ></script>
+	
+	<script>
+		var app = new Vue({
+			el: '#line',
+			data:{
+				
+				rowColor: 'rowColor',
+				lines: lineData
+			},
+			computed: {
+				handleRowColor: function() {
+					return {
+						'rowColor': true
+					};
+				}
+			},
+			
+			filters: {
+				handleRowColor1: function(val, index) {
+					return index%2==0?'rowColor':''
+				}
+			}
+		})
+	</script>
 </html>
